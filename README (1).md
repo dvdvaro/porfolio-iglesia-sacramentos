@@ -19,8 +19,9 @@ Cada recurso corresponde a uno de los tres bloques del proyecto y está diseñad
 
 ### Bloque I — Los Carismas de la Iglesia
 **Archivo:** `actividad1-carismas.html`  
-**URL directa:** https://TU-USUARIO.github.io/TU-REPOSITORIO/actividad1-carismas.html
-
+**URL directa:** [https://TU-USUARIO.github.io/TU-REPOSITORIO/actividad1-carismas.html
+](https://dvdvaro.github.io/porfolio-iglesia-sacramentos/actividad1-carismas.html
+)
 Contenido interactivo:
 - Explorador de tres carismas: Franciscanos, Salesianos y Hakuna
 - Ficha de investigación rellenable por el alumno
@@ -32,7 +33,7 @@ Contenido interactivo:
 
 ### Bloque II — Símbolos Sacramentales en la Biblia
 **Archivo:** `actividad2-simbolos.html`  
-**URL directa:** https://TU-USUARIO.github.io/TU-REPOSITORIO/actividad2-simbolos.html
+**URL directa:** [https://TU-USUARIO.github.io/TU-REPOSITORIO/actividad2-simbolos.html](https://dvdvaro.github.io/porfolio-iglesia-sacramentos/actividad2-simbolos.html)
 
 Contenido interactivo:
 - Explorador de cinco símbolos (agua, pan, vino, aceite, luz) con citas bíblicas del AT y NT
@@ -44,8 +45,7 @@ Contenido interactivo:
 
 ### Bloque III — Perdonados por Cristo
 **Archivo:** `actividad3-perdonados.html`  
-**URL directa:** https://TU-USUARIO.github.io/TU-REPOSITORIO/actividad3-perdonados.html
-
+**URL directa:**  https://dvdvaro.github.io/porfolio-iglesia-sacramentos/actividad3-perdonados.html
 Contenido interactivo:
 - Explorador de cinco personajes evangélicos con tabla antes/después y cita bíblica
 - Los cinco pasos de la Reconciliación
