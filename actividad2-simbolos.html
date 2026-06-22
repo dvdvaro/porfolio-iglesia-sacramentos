@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Símbolos Sacramentales en la Biblia – Actividad ApS Bloque II</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Playfair+Display:wght@700&display=swap');
+
+  :root {
+    --azul: #1B4F72;
+    --azul-medio: #2E86C1;
+    --azul-claro: #D6EAF8;
+    --azul-suave: #EBF5FB;
+    --dorado: #C8860A;
+    --dorado-claro: #F5D88A;
+    --crema: #FDF8F0;
+    --marron: #3E2A0F;
+    --verde: #2D6A4F;
+    --verde-claro: #D8F3DC;
+    --rojo: #922B21;
+    --rojo-claro: #FADBD8;
+    --gris: #6B7280;
+    --blanco: #FFFFFF;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--azul-suave);
+    color: var(--marron);
+    min-height: 100vh;
+  }
+
+  header {
+    background: linear-gradient(135deg, var(--azul) 0%, #0D3152 100%);
+    color: var(--blanco);
+    padding: 2rem 1.5rem 1.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  header::after {
+    content: '✦';
+    position: absolute;
+    font-size: 10rem;
+    opacity: 0.04;
+    bottom: -2rem;
+    right: -1rem;
+  }
+
+  .etiqueta {
+    display: inline-block;
+    background: var(--dorado);
+    color: var(--marron);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.9rem;
+    border-radius: 20px;
+    margin-bottom: 0.75rem;
+  }
+
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.5rem, 4vw, 2.2rem);
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+  }
+
+  header p { font-size: 0.95rem; opacity: 0.85; max-width: 520px; margin: 0 auto; }
+
+  .progreso-wrap {
+    max-width: 320px;
+    margin: 1.2rem auto 0;
+  }
+
+  .progreso-bar { background: rgba(255,255,255,0.2); height: 6px; border-radius: 3px; overflow: hidden; }
+  .progreso-fill { background: var(--dorado); height: 100%; border-radius: 3px; transition: width 0.5s ease; width: 0%; }
+  .progreso-label { font-size: 0.78rem; margin-top: 0.3rem; opacity: 0.7; }
+
+  main { max-width: 820px; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
+
+  .intro-box {
+    background: var(--blanco);
+    border-left: 4px solid var(--azul-medio);
+    border-radius: 0 12px 12px 0;
+    padding: 1.2rem 1.4rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+
+  .intro-box h2 { font-size: 1rem; font-weight: 800; color: var(--azul-medio); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.4rem; }
+  .intro-box p { font-size: 0.92rem; line-height: 1.6; color: var(--gris); }
+
+  /* TABLERO ARRASTRAR */
+  .seccion-titulo {
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--azul);
+    margin-bottom: 0.7rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .badge { display: inline-block; background: var(--dorado); color: var(--marron); font-size: 0.7rem; font-weight: 800; padding: 0.2rem 0.6rem; border-radius: 20px; letter-spacing: 0.05em; text-transform: uppercase; }
+
+  .match-container {
+    background: var(--blanco);
+    border-radius: 14px;
+    padding: 1.4rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    margin-bottom: 1.5rem;
+  }
+
+  .match-intro { font-size: 0.88rem; color: var(--gris); margin-bottom: 1rem; line-height: 1.5; }
+
+  .match-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .match-col h4 { font-size: 0.82rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.07em; color: var(--gris); margin-bottom: 0.6rem; }
+
+  .simbolo-chip {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.6rem 0.9rem;
+    background: var(--azul-suave);
+    border: 2px solid var(--azul-claro);
+    border-radius: 10px;
+    margin-bottom: 0.5rem;
+    font-size: 0.88rem;
+    font-weight: 700;
+    cursor: grab;
+    transition: all 0.2s;
+    user-select: none;
+  }
+
+  .simbolo-chip:hover { border-color: var(--azul-medio); transform: translateY(-1px); box-shadow: 0 3px 10px rgba(0,0,0,0.1); }
+  .simbolo-chip.dragging { opacity: 0.4; }
+
+  .drop-zone {
+    min-height: 52px;
+    border: 2px dashed #CBD5E0;
+    border-radius: 10px;
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.2s;
+    background: #F8FAFC;
+    font-size: 0.83rem;
+    color: #9CA3AF;
+    flex-wrap: wrap;
+  }
+
+  .drop-zone.over { border-color: var(--azul-medio); background: var(--azul-claro); }
+  .drop-zone.correcto { border-color: var(--verde); background: var(--verde-claro); }
+  .drop-zone.incorrecto { border-color: var(--rojo); background: var(--rojo-claro); }
+
+  .sacramento-label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--azul);
+    margin-bottom: 0.25rem;
+  }
+
+  /* EXPLORADOR BÍBLICO */
+  .biblia-explorer {
+    background: var(--blanco);
+    border-radius: 14px;
+    padding: 1.4rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    margin-bottom: 1.5rem;
+  }
+
+  .simbolo-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+  }
+
+  .simbolo-card {
+    border: 2px solid #E5E7EB;
+    border-radius: 12px;
+    padding: 1rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.25s;
+    background: var(--crema);
+  }
+
+  .simbolo-card:hover, .simbolo-card.activo { border-color: var(--azul-medio); background: var(--azul-claro); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(27,79,114,0.15); }
+
+  .simbolo-card .icono { font-size: 2.5rem; margin-bottom: 0.4rem; }
+  .simbolo-card .nombre { font-size: 0.9rem; font-weight: 800; color: var(--azul); }
+  .simbolo-card .subtexto { font-size: 0.75rem; color: var(--gris); margin-top: 0.2rem; }
+
+  .detalle-simbolo {
+    display: none;
+    background: linear-gradient(135deg, var(--azul-suave), var(--azul-claro));
+    border-radius: 12px;
+    padding: 1.2rem;
+    animation: fadeIn 0.3s ease;
+    border-left: 4px solid var(--azul-medio);
+  }
+
+  .detalle-simbolo.show { display: block; }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+  .detalle-simbolo h4 { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--azul); margin-bottom: 0.5rem; }
+
+  .citas-lista { list-style: none; margin: 0.6rem 0; }
+  .citas-lista li {
+    background: var(--blanco);
+    border-radius: 8px;
+    padding: 0.6rem 0.9rem;
+    margin-bottom: 0.4rem;
+    font-size: 0.87rem;
+    border-left: 3px solid var(--dorado);
+    line-height: 1.5;
+  }
+
+  .citas-lista li .ref { font-weight: 800; color: var(--dorado); font-size: 0.78rem; display: block; margin-bottom: 0.15rem; }
+  .citas-lista li .texto-cita { font-style: italic; }
+
+  .sacramento-vinculo {
+    display: inline-block;
+    background: var(--azul);
+    color: var(--blanco);
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+    margin: 0.1rem;
+  }
+
+  /* LÍNEA DEL TIEMPO */
+  .timeline-container {
+    background: var(--blanco);
+    border-radius: 14px;
+    padding: 1.4rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    margin-bottom: 1.5rem;
+  }
+
+  .timeline {
+    position: relative;
+    padding-left: 2rem;
+    margin-top: 1rem;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0.6rem;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--azul-medio), var(--dorado));
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 1.2rem;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all 0.4s ease;
+  }
+
+  .timeline-item.visible { opacity: 1; transform: translateX(0); }
+
+  .timeline-dot {
+    position: absolute;
+    left: -2rem;
+    top: 0.15rem;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--azul-medio);
+    border: 2px solid var(--blanco);
+    box-shadow: 0 0 0 2px var(--azul-medio);
+  }
+
+  .timeline-contenido {
+    background: var(--azul-suave);
+    border-radius: 10px;
+    padding: 0.8rem 1rem;
+    border-left: 3px solid var(--azul-medio);
+  }
+
+  .timeline-titulo { font-size: 0.92rem; font-weight: 800; color: var(--azul); margin-bottom: 0.3rem; }
+  .timeline-texto { font-size: 0.85rem; color: var(--gris); line-height: 1.5; }
+  .timeline-cita { font-style: italic; font-size: 0.82rem; margin-top: 0.3rem; color: var(--azul); }
+
+  /* SERVICIO Y FAMILIAS */
+  .servicio-box {
+    background: linear-gradient(135deg, var(--azul) 0%, #0D3152 100%);
+    color: var(--blanco);
+    border-radius: 14px;
+    padding: 1.4rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .servicio-box h3 { font-family: 'Playfair Display', serif; font-size: 1.2rem; margin-bottom: 0.5rem; }
+  .servicio-box p { font-size: 0.9rem; line-height: 1.6; opacity: 0.9; margin-bottom: 0.8rem; }
+
+  .pasos { list-style: none; counter-reset: pasos; }
+  .pasos li { counter-increment: pasos; display: flex; align-items: flex-start; gap: 0.7rem; margin-bottom: 0.5rem; font-size: 0.88rem; line-height: 1.5; }
+  .pasos li::before { content: counter(pasos); background: var(--dorado); color: var(--marron); font-weight: 800; font-size: 0.78rem; min-width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+
+  .familias-box {
+    background: var(--blanco);
+    border: 2px solid var(--dorado-claro);
+    border-radius: 14px;
+    padding: 1.2rem 1.4rem;
+    margin-bottom: 1rem;
+  }
+
+  .familias-box h3 { font-size: 0.95rem; font-weight: 800; color: var(--dorado); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.06em; }
+  .familias-box p { font-size: 0.88rem; line-height: 1.6; color: var(--gris); }
+
+  /* BOTONES */
+  .btn { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.7rem 1.4rem; border: none; border-radius: 10px; font-family: 'Nunito', sans-serif; font-size: 0.92rem; font-weight: 800; cursor: pointer; transition: all 0.2s; }
+  .btn-azul { background: var(--azul-medio); color: var(--blanco); }
+  .btn-azul:hover { background: var(--azul); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(46,134,193,0.35); }
+  .btn-dorado { background: var(--dorado); color: var(--blanco); }
+  .btn-dorado:hover { background: #A06A08; transform: translateY(-1px); }
+  .btn-outline { background: transparent; color: var(--azul); border: 2px solid var(--azul); }
+  .btn-outline:hover { background: var(--azul); color: var(--blanco); }
+  .btn-row { display: flex; gap: 0.7rem; flex-wrap: wrap; margin-top: 1rem; }
+
+  .resultado-match {
+    display: none;
+    background: var(--verde-claro);
+    border-radius: 10px;
+    padding: 0.8rem 1rem;
+    margin-top: 0.8rem;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--verde);
+  }
+
+  .resultado-match.show { display: block; }
+
+  footer { text-align: center; padding: 1.5rem; font-size: 0.78rem; color: var(--gris); border-top: 1px solid #E5E7EB; margin-top: 1rem; }
+
+  @media (max-width: 500px) { .match-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="etiqueta">Bloque II · ApS · 3.º–4.º Primaria</div>
+  <h1>Símbolos Sacramentales en la Biblia</h1>
+  <p>Agua, pan, vino, aceite y luz: signos de Dios presentes desde el principio</p>
+  <div class="progreso-wrap">
+    <div class="progreso-bar"><div class="progreso-fill" id="progreso"></div></div>
+    <div class="progreso-label" id="progresoLabel">0 de 3 actividades completadas</div>
+  </div>
+</header>
+
+<main>
+
+  <div class="intro-box">
+    <h2>¿Por qué usamos agua, pan y aceite en los sacramentos?</h2>
+    <p>Los sacramentos no inventaron estos símbolos: los tomaron de la vida cotidiana y de la Sagrada Escritura. El agua ya purificaba en el Antiguo Testamento; el pan ya alimentaba al pueblo en el desierto; el aceite ya consagraba a los reyes. Hoy vamos a descubrir esas conexiones.</p>
+  </div>
+
+  <!-- EXPLORADOR DE SÍMBOLOS -->
+  <div class="biblia-explorer" id="sec-explorer">
+    <div class="seccion-titulo">🔎 Explorador de Símbolos <span class="badge">Actividad 1</span></div>
+    <p style="font-size:0.88rem; color:var(--gris); margin-bottom:1rem;">Pulsa en cada símbolo para descubrir sus citas bíblicas y a qué sacramentos pertenece:</p>
+
+    <div class="simbolo-cards">
+      <div class="simbolo-card" onclick="mostrarSimbolo('agua', this)">
+        <div class="icono">💧</div>
+        <div class="nombre">Agua</div>
+        <div class="subtexto">Purificación y nuevo nacimiento</div>
+      </div>
+      <div class="simbolo-card" onclick="mostrarSimbolo('pan', this)">
+        <div class="icono">🍞</div>
+        <div class="nombre">Pan</div>
+        <div class="subtexto">Alimento y comunión</div>
+      </div>
+      <div class="simbolo-card" onclick="mostrarSimbolo('vino', this)">
+        <div class="icono">🍷</div>
+        <div class="nombre">Vino</div>
+        <div class="subtexto">Alianza y celebración</div>
+      </div>
+      <div class="simbolo-card" onclick="mostrarSimbolo('aceite', this)">
+        <div class="icono">🫙</div>
+        <div class="nombre">Aceite</div>
+        <div class="subtexto">Consagración y sanación</div>
+      </div>
+      <div class="simbolo-card" onclick="mostrarSimbolo('luz', this)">
+        <div class="icono">🕯️</div>
+        <div class="nombre">Luz</div>
+        <div class="subtexto">Presencia y guía de Dios</div>
+      </div>
+    </div>
+
+    <div class="detalle-simbolo" id="detalle-agua">
+      <h4>💧 El Agua en la Biblia</h4>
+      <ul class="citas-lista">
+        <li><span class="ref">Gn 1, 2</span><span class="texto-cita">«El Espíritu de Dios se cernía sobre las aguas.» — El agua está en el origen de la creación.</span></li>
+        <li><span class="ref">Ex 14, 21-22</span><span class="texto-cita">«Moisés extendió su mano sobre el mar... el pueblo pasó a pie enjuto.» — El agua separa la esclavitud de la libertad.</span></li>
+        <li><span class="ref">Ez 36, 25</span><span class="texto-cita">«Os rociaré con agua pura y quedaréis purificados.» — Promesa de purificación.</span></li>
+        <li><span class="ref">Jn 3, 5</span><span class="texto-cita">«El que no nazca del agua y del Espíritu no puede entrar en el reino de Dios.»</span></li>
+      </ul>
+      <p style="font-size:0.83rem; color:var(--gris); margin-top:0.5rem;">Sacramento vinculado: <span class="sacramento-vinculo">Bautismo</span></p>
+    </div>
+
+    <div class="detalle-simbolo" id="detalle-pan">
+      <h4>🍞 El Pan en la Biblia</h4>
+      <ul class="citas-lista">
+        <li><span class="ref">Ex 16, 4</span><span class="texto-cita">«Haré llover pan del cielo» — El maná en el desierto, anticipo de la Eucaristía.</span></li>
+        <li><span class="ref">Sal 78, 24</span><span class="texto-cita">«Les llovió maná para comer, trigo del cielo les dio.»</span></li>
+        <li><span class="ref">Jn 6, 35</span><span class="texto-cita">«Yo soy el pan de vida; el que venga a mí no tendrá hambre.»</span></li>
+        <li><span class="ref">Mc 14, 22</span><span class="texto-cita">«Tomó pan, lo bendijo, lo partió y lo dio, diciendo: Tomad, esto es mi cuerpo.»</span></li>
+      </ul>
+      <p style="font-size:0.83rem; color:var(--gris); margin-top:0.5rem;">Sacramento vinculado: <span class="sacramento-vinculo">Eucaristía</span></p>
+    </div>
+
+    <div class="detalle-simbolo" id="detalle-vino">
+      <h4>🍷 El Vino en la Biblia</h4>
+      <ul class="citas-lista">
+        <li><span class="ref">Gn 14, 18</span><span class="texto-cita">«Melquisedec, rey de Salem, presentó pan y vino» — Primera ofrenda de pan y vino de la historia sagrada.</span></li>
+        <li><span class="ref">Jn 2, 1-11</span><span class="texto-cita">Las bodas de Caná: Jesús convierte el agua en vino. Primer signo de su gloria.</span></li>
+        <li><span class="ref">Mc 14, 23-24</span><span class="texto-cita">«Tomó la copa... y les dijo: Esta es mi sangre, la sangre de la alianza.»</span></li>
+      </ul>
+      <p style="font-size:0.83rem; color:var(--gris); margin-top:0.5rem;">Sacramento vinculado: <span class="sacramento-vinculo">Eucaristía</span></p>
+    </div>
+
+    <div class="detalle-simbolo" id="detalle-aceite">
+      <h4>🫙 El Aceite en la Biblia</h4>
+      <ul class="citas-lista">
+        <li><span class="ref">1 Sam 16, 13</span><span class="texto-cita">«Samuel tomó el cuerno de aceite y ungió a David en presencia de sus hermanos.»</span></li>
+        <li><span class="ref">Sal 23, 5</span><span class="texto-cita">«Unges con aceite mi cabeza.» — Gesto de bienvenida y honor.</span></li>
+        <li><span class="ref">St 5, 14</span><span class="texto-cita">«Llamen a los presbíteros de la Iglesia, que oren sobre él y lo unjan con aceite en nombre del Señor.»</span></li>
+      </ul>
+      <p style="font-size:0.83rem; color:var(--gris); margin-top:0.5rem;">Sacramentos vinculados: <span class="sacramento-vinculo">Confirmación</span> <span class="sacramento-vinculo">Unción de los enfermos</span> <span class="sacramento-vinculo">Orden Sacerdotal</span></p>
+    </div>
+
+    <div class="detalle-simbolo" id="detalle-luz">
+      <h4>🕯️ La Luz en la Biblia</h4>
+      <ul class="citas-lista">
+        <li><span class="ref">Gn 1, 3</span><span class="texto-cita">«Dios dijo: "Haya luz." Y hubo luz.» — La luz es lo primero que crea Dios.</span></li>
+        <li><span class="ref">Sal 27, 1</span><span class="texto-cita">«El Señor es mi luz y mi salvación.»</span></li>
+        <li><span class="ref">Jn 8, 12</span><span class="texto-cita">«Yo soy la luz del mundo; el que me siga no andará en tinieblas.»</span></li>
+        <li><span class="ref">Mt 5, 14</span><span class="texto-cita">«Vosotros sois la luz del mundo.»</span></li>
+      </ul>
+      <p style="font-size:0.83rem; color:var(--gris); margin-top:0.5rem;">Sacramentos vinculados: <span class="sacramento-vinculo">Bautismo</span> <span class="sacramento-vinculo">Vigilia Pascual</span></p>
+    </div>
+  </div>
+
+  <!-- LÍNEA DEL TIEMPO -->
+  <div class="timeline-container" id="sec-timeline">
+    <div class="seccion-titulo">📅 Del Antiguo Testamento a los Sacramentos <span class="badge">Actividad 2</span></div>
+    <p style="font-size:0.88rem; color:var(--gris); margin-bottom:0.3rem;">Pulsa el botón para ver la línea del tiempo:</p>
+    <div class="btn-row" style="margin-top:0.5rem;">
+      <button class="btn btn-azul" onclick="animarTimeline()">▶ Mostrar línea del tiempo</button>
+    </div>
+    <div class="timeline" id="timeline">
+      <div class="timeline-item" data-delay="0">
+        <div class="timeline-dot"></div>
+        <div class="timeline-contenido">
+          <div class="timeline-titulo">🌊 El Diluvio — Noé (Gn 6-9)</div>
+          <div class="timeline-texto">El agua destruye el mal y salva al justo. Primer gran símbolo bíblico del agua purificadora.</div>
+          <div class="timeline-cita">«Dios se acordó de Noé... e hizo soplar un viento sobre la tierra.» (Gn 8, 1)</div>
+        </div>
+      </div>
+      <div class="timeline-item" data-delay="200">
+        <div class="timeline-dot"></div>
+        <div class="timeline-contenido">
+          <div class="timeline-titulo">🍞 El Maná en el Desierto (Ex 16)</div>
+          <div class="timeline-texto">Dios alimenta a su pueblo con pan caído del cielo. Anticipo de la Eucaristía.</div>
+          <div class="timeline-cita">«Haré llover pan del cielo.» (Ex 16, 4)</div>
+        </div>
+      </div>
+      <div class="timeline-item" data-delay="400">
+        <div class="timeline-dot"></div>
+        <div class="timeline-contenido">
+          <div class="timeline-titulo">🫙 Unción de David (1 Sam 16)</div>
+          <div class="timeline-texto">Samuel unge a David con aceite como signo de que Dios lo elige rey. El aceite consagra y da fuerza.</div>
+          <div class="timeline-cita">«El Espíritu del Señor vino sobre David a partir de aquel día.» (1 Sam 16, 13)</div>
+        </div>
+      </div>
+      <div class="timeline-item" data-delay="600">
+        <div class="timeline-dot"></div>
+        <div class="timeline-contenido">
+          <div class="timeline-titulo">💧 Bautismo de Jesús (Mt 3, 13-17)</div>
+          <div class="timeline-texto">Jesús se sumerge en el Jordán. El Espíritu desciende y el Padre habla. El Bautismo cristiano nace aquí.</div>
+          <div class="timeline-cita">«Este es mi Hijo amado, en quien me complazco.» (Mt 3, 17)</div>
+        </div>
+      </div>
+      <div class="timeline-item" data-delay="800">
+        <div class="timeline-dot"></div>
+        <div class="timeline-contenido">
+          <div class="timeline-titulo">🍷🍞 La Última Cena (Mc 14, 22-24)</div>
+          <div class="timeline-texto">Jesús transforma el pan y el vino en su Cuerpo y Sangre. Nace la Eucaristía.</div>
+          <div class="timeline-cita">«Haced esto en memoria mía.» (Lc 22, 19)</div>
+        </div>
+      </div>
+      <div class="timeline-item" data-delay="1000">
+        <div class="timeline-dot"></div>
+        <div class="timeline-contenido">
+          <div class="timeline-titulo">🕊️ Pentecostés — El Espíritu Santo (Hch 2)</div>
+          <div class="timeline-texto">El Espíritu desciende sobre los apóstoles. Nace la Iglesia. Los sacramentos se confían a la comunidad.</div>
+          <div class="timeline-cita">«Se llenaron todos de Espíritu Santo.» (Hch 2, 4)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EMPAREJAMIENTO -->
+  <div class="match-container" id="sec-match">
+    <div class="seccion-titulo">🎯 Empareja el símbolo con su sacramento <span class="badge">Actividad 3</span></div>
+    <p class="match-intro">Arrastra cada símbolo al sacramento con el que está relacionado. (En pantalla táctil: toca el símbolo y luego el destino.)</p>
+
+    <div class="match-grid">
+      <div class="match-col">
+        <h4>Símbolos</h4>
+        <div class="simbolo-chip" draggable="true" id="chip-agua" data-value="agua" onclick="seleccionarChip('agua')">💧 Agua</div>
+        <div class="simbolo-chip" draggable="true" id="chip-pan" data-value="pan" onclick="seleccionarChip('pan')">🍞 Pan y vino</div>
+        <div class="simbolo-chip" draggable="true" id="chip-aceite" data-value="aceite" onclick="seleccionarChip('aceite')">🫙 Aceite</div>
+        <div class="simbolo-chip" draggable="true" id="chip-luz" data-value="luz" onclick="seleccionarChip('luz')">🕯️ Luz</div>
+      </div>
+      <div class="match-col">
+        <h4>Sacramentos</h4>
+        <div class="sacramento-label">Bautismo</div>
+        <div class="drop-zone" id="drop-bautismo" data-accept="agua" ondrop="soltarChip(event, 'bautismo')" ondragover="event.preventDefault(); this.classList.add('over')" ondragleave="this.classList.remove('over')" onclick="soltarEnDestino('bautismo')">Suelta aquí</div>
+        <div class="sacramento-label">Eucaristía</div>
+        <div class="drop-zone" id="drop-eucaristia" data-accept="pan" ondrop="soltarChip(event, 'eucaristia')" ondragover="event.preventDefault(); this.classList.add('over')" ondragleave="this.classList.remove('over')" onclick="soltarEnDestino('eucaristia')">Suelta aquí</div>
+        <div class="sacramento-label">Confirmación / Unción</div>
+        <div class="drop-zone" id="drop-confirmacion" data-accept="aceite" ondrop="soltarChip(event, 'confirmacion')" ondragover="event.preventDefault(); this.classList.add('over')" ondragleave="this.classList.remove('over')" onclick="soltarEnDestino('confirmacion')">Suelta aquí</div>
+        <div class="sacramento-label">Iniciación Cristiana</div>
+        <div class="drop-zone" id="drop-iniciacion" data-accept="luz" ondrop="soltarChip(event, 'iniciacion')" ondragover="event.preventDefault(); this.classList.add('over')" ondragleave="this.classList.remove('over')" onclick="soltarEnDestino('iniciacion')">Suelta aquí</div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-azul" onclick="corregirMatch()">✅ Comprobar</button>
+      <button class="btn btn-outline" onclick="reiniciarMatch()">🔄 Reiniciar</button>
+    </div>
+
+    <div class="resultado-match" id="resultadoMatch"></div>
+  </div>
+
+  <!-- SERVICIO -->
+  <div class="servicio-box">
+    <h3>🤝 Nuestro Servicio: El Mural Bíblico de los Sacramentos</h3>
+    <p>El aprendizaje culmina en un mural colectivo que se colocará en la entrada de la iglesia parroquial más cercana al CEIP Santuario, para que toda la comunidad vea cómo la Biblia habla a través de los sacramentos.</p>
+    <ul class="pasos">
+      <li>Cada alumno ilustra un símbolo (agua, pan, aceite, luz) con su cita bíblica favorita.</li>
+      <li>Se ensambla un mural colectivo en clase con todos los dibujos.</li>
+      <li>Se gestiona con la parroquia exponer el mural durante el tiempo de Cuaresma o Adviento.</li>
+      <li>Las familias son invitadas a la presentación del mural en la parroquia.</li>
+    </ul>
+  </div>
+
+  <!-- FAMILIAS -->
+  <div class="familias-box">
+    <h3>👨‍👩‍👧 Participación de las familias</h3>
+    <p>Se envía a casa una <strong>«Tarjeta Bíblica»</strong>: cada familia busca juntos en casa una Biblia (o en internet) la cita que más les guste de entre las trabajadas en clase, la escribe en la tarjeta y la trae al aula para añadirla al mural. Así cada familia contribuye con una palabra de la Escritura al proyecto colectivo.</p>
+  </div>
+
+</main>
+
+<footer>
+  Actividad ApS · Bloque II · CEIP Santuario, Córdoba · Religión, Cultura y Valores · 3.º–4.º Primaria
+</footer>
+
+<script>
+  let chipSeleccionado = null;
+  let seccionesOk = new Set();
+  const matchCorrectos = { bautismo: 'agua', eucaristia: 'pan', confirmacion: 'aceite', iniciacion: 'luz' };
+  const dropContenido = { bautismo: null, eucaristia: null, confirmacion: null, iniciacion: null };
+
+  function mostrarSimbolo(id, card) {
+    document.querySelectorAll('.detalle-simbolo').forEach(d => d.classList.remove('show'));
+    document.querySelectorAll('.simbolo-card').forEach(c => c.classList.remove('activo'));
+    document.getElementById('detalle-' + id).classList.add('show');
+    card.classList.add('activo');
+    seccionesOk.add('explorer');
+    actualizarProgreso();
+  }
+
+  function animarTimeline() {
+    const items = document.querySelectorAll('.timeline-item');
+    items.forEach((item, i) => {
+      setTimeout(() => item.classList.add('visible'), parseInt(item.dataset.delay));
+    });
+    seccionesOk.add('timeline');
+    actualizarProgreso();
+  }
+
+  // Drag & drop
+  document.querySelectorAll('.simbolo-chip').forEach(chip => {
+    chip.addEventListener('dragstart', e => {
+      e.dataTransfer.setData('value', chip.dataset.value);
+      e.dataTransfer.setData('chipId', chip.id);
+      setTimeout(() => chip.classList.add('dragging'), 0);
+    });
+    chip.addEventListener('dragend', () => chip.classList.remove('dragging'));
+  });
+
+  function soltarChip(e, destino) {
+    e.preventDefault();
+    const value = e.dataTransfer.getData('value');
+    const chipId = e.dataTransfer.getData('chipId');
+    const drop = document.getElementById('drop-' + destino);
+    drop.classList.remove('over');
+    colocarEnDrop(destino, value, chipId);
+  }
+
+  // Touch fallback
+  function seleccionarChip(value) {
+    if (chipSeleccionado === value) { chipSeleccionado = null; document.querySelectorAll('.simbolo-chip').forEach(c => c.style.border = ''); return; }
+    chipSeleccionado = value;
+    document.querySelectorAll('.simbolo-chip').forEach(c => c.style.border = '');
+    document.getElementById('chip-' + value).style.border = '2px solid var(--dorado)';
+  }
+
+  function soltarEnDestino(destino) {
+    if (!chipSeleccionado) return;
+    const chipId = 'chip-' + chipSeleccionado;
+    colocarEnDrop(destino, chipSeleccionado, chipId);
+    chipSeleccionado = null;
+    document.querySelectorAll('.simbolo-chip').forEach(c => c.style.border = '');
+  }
+
+  function colocarEnDrop(destino, value, chipId) {
+    const drop = document.getElementById('drop-' + destino);
+    const emojis = { agua: '💧 Agua', pan: '🍞 Pan y vino', aceite: '🫙 Aceite', luz: '🕯️ Luz' };
+    drop.innerHTML = '<strong>' + emojis[value] + '</strong>';
+    drop.classList.remove('correcto', 'incorrecto');
+    dropContenido[destino] = value;
+  }
+
+  function corregirMatch() {
+    let aciertos = 0;
+    Object.entries(matchCorrectos).forEach(([destino, correcto]) => {
+      const drop = document.getElementById('drop-' + destino);
+      if (dropContenido[destino] === correcto) {
+        drop.classList.add('correcto');
+        aciertos++;
+      } else if (dropContenido[destino]) {
+        drop.classList.add('incorrecto');
+      }
+    });
+    const res = document.getElementById('resultadoMatch');
+    res.className = 'resultado-match show';
+    if (aciertos === 4) {
+      res.style.background = 'var(--verde-claro)'; res.style.color = 'var(--verde)';
+      res.textContent = '🌟 ¡Perfecto! Has emparejado correctamente todos los símbolos con sus sacramentos.';
+      seccionesOk.add('match');
+      actualizarProgreso();
+    } else {
+      res.style.background = 'var(--rojo-claro)'; res.style.color = 'var(--rojo)';
+      res.textContent = aciertos + ' de 4 correctos. Revisa los marcados en rojo y vuelve a intentarlo.';
+    }
+  }
+
+  function reiniciarMatch() {
+    Object.keys(dropContenido).forEach(k => dropContenido[k] = null);
+    document.querySelectorAll('.drop-zone').forEach(d => { d.innerHTML = 'Suelta aquí'; d.classList.remove('correcto', 'incorrecto'); });
+    document.getElementById('resultadoMatch').className = 'resultado-match';
+  }
+
+  function actualizarProgreso() {
+    const total = 3;
+    const n = seccionesOk.size;
+    document.getElementById('progreso').style.width = (n / total * 100) + '%';
+    document.getElementById('progresoLabel').textContent = n + ' de ' + total + ' actividades completadas';
+  }
+</script>
+</body>
+</html>

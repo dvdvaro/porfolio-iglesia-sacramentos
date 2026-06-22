@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Los Carismas de la Iglesia – Actividad ApS Bloque I</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Playfair+Display:wght@700&display=swap');
+
+  :root {
+    --gold: #C8860A;
+    --gold-light: #F5D88A;
+    --cream: #FDF8F0;
+    --brown: #3E2A0F;
+    --green: #2D6A4F;
+    --green-light: #D8F3DC;
+    --blue: #1B4F72;
+    --blue-light: #D6EAF8;
+    --red: #922B21;
+    --red-light: #FADBD8;
+    --gray: #6B7280;
+    --white: #FFFFFF;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--cream);
+    color: var(--brown);
+    min-height: 100vh;
+  }
+
+  header {
+    background: linear-gradient(135deg, var(--brown) 0%, #6B3A1F 100%);
+    color: var(--gold-light);
+    padding: 2rem 1.5rem 1.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  header::before {
+    content: '✦';
+    position: absolute;
+    font-size: 8rem;
+    opacity: 0.05;
+    top: -1rem;
+    left: -1rem;
+  }
+
+  header .etiqueta {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--brown);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.9rem;
+    border-radius: 20px;
+    margin-bottom: 0.75rem;
+  }
+
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+  }
+
+  header p {
+    font-size: 0.95rem;
+    opacity: 0.85;
+    max-width: 540px;
+    margin: 0 auto;
+  }
+
+  .progreso-bar {
+    background: rgba(255,255,255,0.15);
+    height: 6px;
+    border-radius: 3px;
+    margin: 1.2rem auto 0;
+    max-width: 300px;
+    overflow: hidden;
+  }
+
+  .progreso-fill {
+    background: var(--gold);
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.5s ease;
+    width: 0%;
+  }
+
+  .progreso-label {
+    font-size: 0.78rem;
+    margin-top: 0.4rem;
+    opacity: 0.7;
+  }
+
+  main {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 1.5rem 1rem 3rem;
+  }
+
+  /* SECCIÓN INTRO */
+  .intro-box {
+    background: var(--white);
+    border-left: 4px solid var(--gold);
+    border-radius: 0 12px 12px 0;
+    padding: 1.2rem 1.4rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+
+  .intro-box h2 {
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.4rem;
+  }
+
+  .intro-box p {
+    font-size: 0.93rem;
+    line-height: 1.6;
+    color: var(--gray);
+  }
+
+  /* TABS DE CARISMAS */
+  .carismas-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .tab-btn {
+    flex: 1;
+    min-width: 140px;
+    padding: 0.7rem 1rem;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    background: var(--white);
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.25s;
+    color: var(--gray);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+  }
+
+  .tab-btn.franciscanos { border-color: #D4AC6E; }
+  .tab-btn.salesianos { border-color: #4A90D9; }
+  .tab-btn.hakuna { border-color: #E67E22; }
+
+  .tab-btn.active.franciscanos { background: #FDF3DC; color: var(--brown); border-color: var(--gold); }
+  .tab-btn.active.salesianos { background: var(--blue-light); color: var(--blue); border-color: var(--blue); }
+  .tab-btn.active.hakuna { background: #FDEBD0; color: #784212; border-color: #E67E22; }
+
+  .tab-btn:hover { transform: translateY(-1px); box-shadow: 0 3px 10px rgba(0,0,0,0.1); }
+
+  .carisma-panel {
+    display: none;
+    background: var(--white);
+    border-radius: 14px;
+    padding: 1.4rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    margin-bottom: 1.5rem;
+    animation: fadeIn 0.3s ease;
+  }
+
+  .carisma-panel.active { display: block; }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+  .carisma-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 2px dashed #EEE;
+  }
+
+  .carisma-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    flex-shrink: 0;
+  }
+
+  .carisma-panel h3 { font-family: 'Playfair Display', serif; font-size: 1.3rem; }
+  .carisma-panel .subtitulo { font-size: 0.82rem; color: var(--gray); font-weight: 600; }
+
+  .datos-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.7rem;
+    margin-bottom: 1rem;
+  }
+
+  .dato-card {
+    background: var(--cream);
+    border-radius: 10px;
+    padding: 0.8rem;
+  }
+
+  .dato-card .label { font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: var(--gray); margin-bottom: 0.25rem; }
+  .dato-card .valor { font-size: 0.9rem; font-weight: 700; }
+
+  .frase-biblica {
+    background: linear-gradient(135deg, #FDF8F0, #F5E6C8);
+    border-radius: 10px;
+    padding: 0.9rem 1rem;
+    margin-bottom: 1rem;
+    font-style: italic;
+    font-size: 0.9rem;
+    border-left: 3px solid var(--gold);
+  }
+
+  .frase-biblica span { font-weight: 800; font-style: normal; font-size: 0.78rem; color: var(--gold); display: block; margin-top: 0.3rem; }
+
+  /* ACTIVIDAD INTERACTIVA */
+  .actividad-titulo {
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--brown);
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .badge {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--brown);
+    font-size: 0.7rem;
+    font-weight: 800;
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  /* FICHAS DE INVESTIGACIÓN */
+  .ficha-container {
+    background: var(--white);
+    border-radius: 14px;
+    padding: 1.4rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    margin-bottom: 1.5rem;
+  }
+
+  .ficha-container h3 {
+    font-size: 1rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    color: var(--brown);
+  }
+
+  .campo-ficha {
+    margin-bottom: 0.9rem;
+  }
+
+  .campo-ficha label {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--gray);
+    margin-bottom: 0.3rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .campo-ficha input,
+  .campo-ficha textarea {
+    width: 100%;
+    padding: 0.65rem 0.85rem;
+    border: 2px solid #E5E7EB;
+    border-radius: 8px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.92rem;
+    color: var(--brown);
+    background: var(--cream);
+    transition: border-color 0.2s;
+    resize: vertical;
+  }
+
+  .campo-ficha input:focus,
+  .campo-ficha textarea:focus {
+    outline: none;
+    border-color: var(--gold);
+    background: var(--white);
+  }
+
+  .campo-ficha textarea { min-height: 70px; }
+
+  /* QUIZ */
+  .quiz-section {
+    background: var(--white);
+    border-radius: 14px;
+    padding: 1.4rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    margin-bottom: 1.5rem;
+  }
+
+  .pregunta {
+    margin-bottom: 1.2rem;
+    padding-bottom: 1.2rem;
+    border-bottom: 1px solid #F3F4F6;
+  }
+
+  .pregunta:last-of-type { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+  .pregunta p { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.6rem; }
+
+  .opciones { display: flex; flex-direction: column; gap: 0.4rem; }
+
+  .opcion {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.6rem 0.9rem;
+    border: 2px solid #E5E7EB;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+    background: var(--cream);
+  }
+
+  .opcion:hover { border-color: var(--gold); background: #FDF8F0; }
+  .opcion.correcta { border-color: var(--green); background: var(--green-light); color: var(--green); }
+  .opcion.incorrecta { border-color: var(--red); background: var(--red-light); color: var(--red); }
+
+  .opcion input[type="radio"] { accent-color: var(--gold); }
+
+  .feedback {
+    margin-top: 0.5rem;
+    font-size: 0.83rem;
+    font-weight: 700;
+    padding: 0.4rem 0.7rem;
+    border-radius: 6px;
+    display: none;
+  }
+
+  .feedback.show { display: block; }
+  .feedback.ok { background: var(--green-light); color: var(--green); }
+  .feedback.fail { background: var(--red-light); color: var(--red); }
+
+  /* BOTONES */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.7rem 1.4rem;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+
+  .btn-gold { background: var(--gold); color: var(--white); }
+  .btn-gold:hover { background: #A06A08; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(200,134,10,0.35); }
+
+  .btn-outline { background: transparent; color: var(--brown); border: 2px solid var(--brown); }
+  .btn-outline:hover { background: var(--brown); color: var(--white); }
+
+  .btn-green { background: var(--green); color: var(--white); }
+  .btn-green:hover { background: #1E4A35; }
+
+  .btn-row { display: flex; gap: 0.7rem; flex-wrap: wrap; margin-top: 1rem; }
+
+  /* MAPA MENTAL */
+  .mapa-container {
+    background: var(--white);
+    border-radius: 14px;
+    padding: 1.4rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    margin-bottom: 1.5rem;
+  }
+
+  .mapa-canvas {
+    width: 100%;
+    height: 280px;
+    border: 2px dashed #D1D5DB;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+    background: #FAFAFA;
+    margin-bottom: 0.8rem;
+  }
+
+  .nodo {
+    position: absolute;
+    padding: 0.5rem 0.9rem;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    white-space: nowrap;
+    cursor: default;
+    animation: aparecer 0.4s ease forwards;
+    opacity: 0;
+  }
+
+  @keyframes aparecer { to { opacity: 1; } }
+
+  .nodo-central {
+    background: var(--brown);
+    color: var(--gold-light);
+    font-size: 0.9rem;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .nodo-1 { background: #FDF3DC; color: #7D4F00; border: 2px solid #D4AC6E; animation-delay: 0.2s; }
+  .nodo-2 { background: var(--blue-light); color: var(--blue); border: 2px solid var(--blue); animation-delay: 0.4s; }
+  .nodo-3 { background: #FDEBD0; color: #784212; border: 2px solid #E67E22; animation-delay: 0.6s; }
+
+  svg.lineas {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+  }
+
+  /* SERVICIO */
+  .servicio-box {
+    background: linear-gradient(135deg, var(--green) 0%, #1A5C40 100%);
+    color: var(--white);
+    border-radius: 14px;
+    padding: 1.4rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .servicio-box h3 { font-family: 'Playfair Display', serif; font-size: 1.2rem; margin-bottom: 0.5rem; opacity: 0.95; }
+  .servicio-box p { font-size: 0.9rem; line-height: 1.6; opacity: 0.9; margin-bottom: 0.8rem; }
+
+  .pasos-servicio { list-style: none; counter-reset: pasos; }
+  .pasos-servicio li {
+    counter-increment: pasos;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.7rem;
+    margin-bottom: 0.6rem;
+    font-size: 0.88rem;
+    line-height: 1.5;
+  }
+
+  .pasos-servicio li::before {
+    content: counter(pasos);
+    background: var(--gold);
+    color: var(--brown);
+    font-weight: 800;
+    font-size: 0.78rem;
+    min-width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* FAMILIAS */
+  .familias-box {
+    background: var(--white);
+    border: 2px solid var(--gold-light);
+    border-radius: 14px;
+    padding: 1.2rem 1.4rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .familias-box h3 { font-size: 0.95rem; font-weight: 800; color: var(--gold); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.06em; }
+  .familias-box p { font-size: 0.88rem; line-height: 1.6; color: var(--gray); }
+
+  /* RESULTADOS */
+  .resultado-box {
+    display: none;
+    background: var(--white);
+    border-radius: 14px;
+    padding: 1.4rem;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    margin-top: 1rem;
+  }
+
+  .resultado-box.show { display: block; animation: fadeIn 0.4s ease; }
+  .resultado-emoji { font-size: 3rem; margin-bottom: 0.5rem; }
+  .resultado-box h3 { font-family: 'Playfair Display', serif; font-size: 1.3rem; margin-bottom: 0.4rem; }
+  .resultado-box p { color: var(--gray); font-size: 0.9rem; }
+  .resultado-puntos { font-size: 2rem; font-weight: 800; color: var(--gold); margin: 0.5rem 0; }
+
+  footer {
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 0.78rem;
+    color: var(--gray);
+    border-top: 1px solid #E5E7EB;
+    margin-top: 1rem;
+  }
+
+  @media (max-width: 500px) {
+    .datos-grid { grid-template-columns: 1fr; }
+    .carismas-tabs { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="etiqueta">Bloque I · ApS · 3.º–4.º Primaria</div>
+  <h1>Los Carismas de la Iglesia</h1>
+  <p>Descubre los dones que Dios da a su Iglesia para servir al mundo</p>
+  <div class="progreso-bar"><div class="progreso-fill" id="progreso"></div></div>
+  <div class="progreso-label" id="progresoLabel">0 de 4 secciones completadas</div>
+</header>
+
+<main>
+
+  <!-- INTRO -->
+  <div class="intro-box">
+    <h2>¿Qué es un carisma?</h2>
+    <p>Un carisma es un don especial que el Espíritu Santo da a personas o grupos dentro de la Iglesia para que sirvan a los demás. Cada carisma hace la Iglesia más viva y más bella. Hoy vamos a conocer tres: <strong>los Franciscanos, los Salesianos y el movimiento Hakuna</strong>.</p>
+  </div>
+
+  <!-- TABS CARISMAS -->
+  <div class="carismas-tabs">
+    <button class="tab-btn franciscanos active" onclick="mostrarCarisma('franciscanos', this)">🕊️ Franciscanos</button>
+    <button class="tab-btn salesianos" onclick="mostrarCarisma('salesianos', this)">📚 Salesianos</button>
+    <button class="tab-btn hakuna" onclick="mostrarCarisma('hakuna', this)">🎉 Hakuna</button>
+  </div>
+
+  <!-- PANEL FRANCISCANOS -->
+  <div class="carisma-panel active" id="panel-franciscanos">
+    <div class="carisma-header">
+      <div class="carisma-icon" style="background:#FDF3DC; font-size:2rem;">🕊️</div>
+      <div>
+        <h3>Los Franciscanos</h3>
+        <div class="subtitulo">Orden de Frailes Menores · fundada en 1209</div>
+      </div>
+    </div>
+    <div class="datos-grid">
+      <div class="dato-card">
+        <div class="label">Fundador</div>
+        <div class="valor">San Francisco de Asís</div>
+      </div>
+      <div class="dato-card">
+        <div class="label">Carisma</div>
+        <div class="valor">Pobreza y fraternidad</div>
+      </div>
+      <div class="dato-card">
+        <div class="label">¿Dónde trabajan?</div>
+        <div class="valor">Con los más pobres del mundo</div>
+      </div>
+      <div class="dato-card">
+        <div class="label">En España</div>
+        <div class="valor">+300 fraternidades</div>
+      </div>
+    </div>
+    <div class="frase-biblica">
+      «Bienaventurados los pobres de espíritu, porque de ellos es el reino de los cielos.»
+      <span>Mt 5, 3</span>
+    </div>
+    <p style="font-size:0.88rem; color:var(--gray); line-height:1.6;">San Francisco dejó su riqueza para vivir como Jesús. Sus seguidores cuidan a enfermos, sin techo y marginados en todo el mundo. Su símbolo es la Tau (T), una cruz que representa la renovación.</p>
+  </div>
+
+  <!-- PANEL SALESIANOS -->
+  <div class="carisma-panel" id="panel-salesianos">
+    <div class="carisma-header">
+      <div class="carisma-icon" style="background:var(--blue-light);">📚</div>
+      <div>
+        <h3>Los Salesianos</h3>
+        <div class="subtitulo">Sociedad Salesiana · fundada en 1859</div>
+      </div>
+    </div>
+    <div class="datos-grid">
+      <div class="dato-card">
+        <div class="label">Fundador</div>
+        <div class="valor">San Juan Bosco (Don Bosco)</div>
+      </div>
+      <div class="dato-card">
+        <div class="label">Carisma</div>
+        <div class="valor">Educación de la juventud</div>
+      </div>
+      <div class="dato-card">
+        <div class="label">¿Dónde trabajan?</div>
+        <div class="valor">Escuelas y oratorios en 134 países</div>
+      </div>
+      <div class="dato-card">
+        <div class="label">Lema</div>
+        <div class="valor">«Da mihi animas»</div>
+      </div>
+    </div>
+    <div class="frase-biblica">
+      «Dejad que los niños vengan a mí, porque de los que son como ellos es el reino de los cielos.»
+      <span>Mt 19, 14</span>
+    </div>
+    <p style="font-size:0.88rem; color:var(--gray); line-height:1.6;">Don Bosco fundó en Turín un hogar para jóvenes pobres donde aprendían un oficio y vivían la fe con alegría. Hoy los Salesianos tienen miles de colegios, oratorios y centros de formación en todo el mundo.</p>
+  </div>
+
+  <!-- PANEL HAKUNA -->
+  <div class="carisma-panel" id="panel-hakuna">
+    <div class="carisma-header">
+      <div class="carisma-icon" style="background:#FDEBD0;">🎉</div>
+      <div>
+        <h3>Movimiento Hakuna</h3>
+        <div class="subtitulo">Fundado en 2008 · Madrid</div>
+      </div>
+    </div>
+    <div class="datos-grid">
+      <div class="dato-card">
+        <div class="label">Fundadores</div>
+        <div class="valor">Javier García y compañeros</div>
+      </div>
+      <div class="dato-card">
+        <div class="label">Carisma</div>
+        <div class="valor">Alegría y fraternidad joven</div>
+      </div>
+      <div class="dato-card">
+        <div class="label">¿Dónde están?</div>
+        <div class="valor">+20 países en 15 años</div>
+      </div>
+      <div class="dato-card">
+        <div class="label">Lema</div>
+        <div class="valor">«Vivir desde el amor»</div>
+      </div>
+    </div>
+    <div class="frase-biblica">
+      «Estad siempre alegres en el Señor; os lo repito, estad alegres.»
+      <span>Flp 4, 4</span>
+    </div>
+    <p style="font-size:0.88rem; color:var(--gray); line-height:1.6;">Hakuna nació en Madrid como respuesta a jóvenes que buscaban comunidad y sentido. Su nombre viene de la frase swahili «Hakuna matata» y su carisma es mostrar que la fe cristiana es una propuesta de alegría radical.</p>
+  </div>
+
+  <!-- MAPA MENTAL INTERACTIVO -->
+  <div class="mapa-container" id="seccion-mapa">
+    <div class="actividad-titulo">
+      🗺️ Mapa de los Carismas
+      <span class="badge">Actividad 1</span>
+    </div>
+    <p style="font-size:0.88rem; color:var(--gray); margin-bottom:0.8rem;">Pulsa el botón para ver cómo se relacionan los tres carismas con la Iglesia:</p>
+    <div class="mapa-canvas" id="mapaCanvas">
+      <svg class="lineas" id="lineasSVG"></svg>
+    </div>
+    <button class="btn btn-gold" onclick="generarMapa()" id="btnMapa">✨ Generar mapa</button>
+  </div>
+
+  <!-- FICHA DE INVESTIGACIÓN -->
+  <div class="ficha-container" id="seccion-ficha">
+    <h3>📋 Mi Ficha de Investigación</h3>
+    <p style="font-size:0.85rem; color:var(--gray); margin-bottom:1rem;">Elige un carisma y completa la ficha. Luego la compartirás con tu clase.</p>
+    <div class="campo-ficha">
+      <label>El carisma que he investigado</label>
+      <input type="text" id="campo1" placeholder="Ej: Los Franciscanos" oninput="actualizarProgreso()">
+    </div>
+    <div class="campo-ficha">
+      <label>¿Quién lo fundó y cuándo?</label>
+      <input type="text" id="campo2" placeholder="Ej: San Francisco de Asís en 1209">
+    </div>
+    <div class="campo-ficha">
+      <label>¿A quién sirven?</label>
+      <textarea id="campo3" placeholder="Describe a las personas a las que ayudan..."></textarea>
+    </div>
+    <div class="campo-ficha">
+      <label>¿Qué me ha llamado más la atención?</label>
+      <textarea id="campo4" placeholder="Escribe tu reflexión personal..."></textarea>
+    </div>
+    <div class="campo-ficha">
+      <label>Cita bíblica relacionada</label>
+      <input type="text" id="campo5" placeholder="Ej: «Bienaventurados los pobres...» Mt 5,3">
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-gold" onclick="guardarFicha()">💾 Guardar ficha</button>
+      <button class="btn btn-outline" onclick="limpiarFicha()">🗑️ Limpiar</button>
+    </div>
+    <div id="fichaGuardada" style="display:none; margin-top:0.8rem; background:var(--green-light); color:var(--green); padding:0.6rem 1rem; border-radius:8px; font-size:0.85rem; font-weight:700;">
+      ✅ ¡Ficha guardada! Puedes imprimirla o compartirla.
+    </div>
+  </div>
+
+  <!-- QUIZ -->
+  <div class="quiz-section" id="seccion-quiz">
+    <div class="actividad-titulo">
+      🎯 ¿Cuánto has aprendido?
+      <span class="badge">Quiz</span>
+    </div>
+
+    <div class="pregunta" id="p1">
+      <p>1. ¿Qué es un carisma?</p>
+      <div class="opciones">
+        <label class="opcion"><input type="radio" name="q1" value="a"> Una iglesia famosa de Roma</label>
+        <label class="opcion"><input type="radio" name="q1" value="b"> Un don del Espíritu Santo para servir a la Iglesia</label>
+        <label class="opcion"><input type="radio" name="q1" value="c"> Un tipo de canto religioso</label>
+      </div>
+      <div class="feedback" id="f1"></div>
+    </div>
+
+    <div class="pregunta" id="p2">
+      <p>2. ¿Quién fundó los Salesianos?</p>
+      <div class="opciones">
+        <label class="opcion"><input type="radio" name="q2" value="a"> San Francisco de Asís</label>
+        <label class="opcion"><input type="radio" name="q2" value="b"> Santa Teresa de Calcuta</label>
+        <label class="opcion"><input type="radio" name="q2" value="c"> San Juan Bosco (Don Bosco)</label>
+      </div>
+      <div class="feedback" id="f2"></div>
+    </div>
+
+    <div class="pregunta" id="p3">
+      <p>3. El movimiento Hakuna tiene como carisma especial…</p>
+      <div class="opciones">
+        <label class="opcion"><input type="radio" name="q3" value="a"> La alegría y la fraternidad entre jóvenes</label>
+        <label class="opcion"><input type="radio" name="q3" value="b"> La construcción de catedrales</label>
+        <label class="opcion"><input type="radio" name="q3" value="c"> El silencio y la meditación</label>
+      </div>
+      <div class="feedback" id="f3"></div>
+    </div>
+
+    <div class="pregunta" id="p4">
+      <p>4. Los Franciscanos viven el carisma de…</p>
+      <div class="opciones">
+        <label class="opcion"><input type="radio" name="q4" value="a"> La música sagrada</label>
+        <label class="opcion"><input type="radio" name="q4" value="b"> La pobreza y la cercanía a los más vulnerables</label>
+        <label class="opcion"><input type="radio" name="q4" value="c"> La enseñanza universitaria</label>
+      </div>
+      <div class="feedback" id="f4"></div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-gold" onclick="corregirQuiz()">✅ Corregir respuestas</button>
+      <button class="btn btn-outline" onclick="reiniciarQuiz()">🔄 Reiniciar</button>
+    </div>
+
+    <div class="resultado-box" id="resultado">
+      <div class="resultado-emoji" id="resEmoji"></div>
+      <h3 id="resTitulo"></h3>
+      <div class="resultado-puntos" id="resPuntos"></div>
+      <p id="resTexto"></p>
+    </div>
+  </div>
+
+  <!-- SERVICIO -->
+  <div class="servicio-box">
+    <h3>🤝 Nuestro Servicio: La Exposición de Carismas</h3>
+    <p>El aprendizaje culmina en un servicio real. Vuestro grupo creará una exposición en el pasillo del colegio para que toda la comunidad del CEIP Santuario conozca los carismas de la Iglesia.</p>
+    <ul class="pasos-servicio">
+      <li>Cada equipo investiga un carisma y prepara un panel visual.</li>
+      <li>Se invita a familias y otros cursos a visitar la exposición.</li>
+      <li>Los alumnos explican en voz alta lo que han aprendido (son los guías).</li>
+      <li>Se recoge una colecta simbólica para Cáritas Córdoba.</li>
+    </ul>
+  </div>
+
+  <!-- FAMILIAS -->
+  <div class="familias-box">
+    <h3>👨‍👩‍👧 Participación de las familias</h3>
+    <p>Las familias reciben una carta-invitación para visitar la exposición. Además, se les propone una <strong>tarea en casa</strong>: preguntar a un familiar mayor si conoce alguna obra de la Iglesia en Córdoba y traer la historia al aula. Esto genera un diálogo intergeneracional sobre la presencia de la Iglesia en la vida cotidiana.</p>
+  </div>
+
+</main>
+
+<footer>
+  Actividad ApS · Bloque I · CEIP Santuario, Córdoba · Religión, Cultura y Valores · 3.º–4.º Primaria
+</footer>
+
+<script>
+  const respuestasCorrectas = { q1: 'b', q2: 'c', q3: 'a', q4: 'b' };
+  let seccionesCompletadas = new Set();
+
+  function mostrarCarisma(id, btn) {
+    document.querySelectorAll('.carisma-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('panel-' + id).classList.add('active');
+    btn.classList.add('active');
+    seccionesCompletadas.add('carismas');
+    actualizarProgreso();
+  }
+
+  function generarMapa() {
+    const canvas = document.getElementById('mapaCanvas');
+    const svg = document.getElementById('lineasSVG');
+    canvas.querySelectorAll('.nodo').forEach(n => n.remove());
+    svg.innerHTML = '';
+
+    const cx = canvas.offsetWidth / 2;
+    const cy = canvas.offsetHeight / 2;
+
+    const central = crearNodo('La Iglesia', 'nodo nodo-central', cx - 50, cy - 18, canvas);
+
+    const nodos = [
+      { texto: '🕊️ Franciscanos', cls: 'nodo nodo-1', x: cx - 180, y: cy - 80 },
+      { texto: '📚 Salesianos', cls: 'nodo nodo-2', x: cx + 60, y: cy - 80 },
+      { texto: '🎉 Hakuna', cls: 'nodo nodo-3', x: cx - 80, y: cy + 60 },
+    ];
+
+    nodos.forEach(n => {
+      const el = crearNodo(n.texto, n.cls, n.x, n.y, canvas);
+      setTimeout(() => {
+        const r1 = el.getBoundingClientRect();
+        const r2 = central.getBoundingClientRect();
+        const r0 = canvas.getBoundingClientRect();
+        const x1 = n.x + el.offsetWidth / 2;
+        const y1 = n.y + el.offsetHeight / 2;
+        const x2 = cx;
+        const y2 = cy;
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        line.setAttribute('x1', x1); line.setAttribute('y1', y1);
+        line.setAttribute('x2', x2); line.setAttribute('y2', y2);
+        line.setAttribute('stroke', '#C8860A'); line.setAttribute('stroke-width', '2');
+        line.setAttribute('stroke-dasharray', '5,4'); line.setAttribute('opacity', '0.5');
+        svg.appendChild(line);
+      }, 100);
+    });
+
+    document.getElementById('btnMapa').textContent = '✨ Regenerar mapa';
+    seccionesCompletadas.add('mapa');
+    actualizarProgreso();
+  }
+
+  function crearNodo(texto, cls, x, y, parent) {
+    const el = document.createElement('div');
+    el.className = cls;
+    el.textContent = texto;
+    el.style.left = x + 'px';
+    el.style.top = y + 'px';
+    parent.appendChild(el);
+    return el;
+  }
+
+  function actualizarProgreso() {
+    const campos = ['campo1','campo2','campo3','campo4','campo5'];
+    const rellenos = campos.filter(id => document.getElementById(id)?.value?.trim()).length;
+    if (rellenos >= 3) seccionesCompletadas.add('ficha');
+
+    const total = 4;
+    const completadas = seccionesCompletadas.size;
+    const pct = (completadas / total) * 100;
+    document.getElementById('progreso').style.width = pct + '%';
+    document.getElementById('progresoLabel').textContent = completadas + ' de ' + total + ' secciones completadas';
+  }
+
+  function guardarFicha() {
+    const campos = ['campo1','campo2','campo3','campo4','campo5'];
+    const rellenos = campos.filter(id => document.getElementById(id)?.value?.trim()).length;
+    if (rellenos < 2) { alert('Rellena al menos 2 campos antes de guardar.'); return; }
+    document.getElementById('fichaGuardada').style.display = 'block';
+    seccionesCompletadas.add('ficha');
+    actualizarProgreso();
+  }
+
+  function limpiarFicha() {
+    ['campo1','campo2','campo3','campo4','campo5'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.value = '';
+    });
+    document.getElementById('fichaGuardada').style.display = 'none';
+  }
+
+  function corregirQuiz() {
+    let aciertos = 0;
+    const total = Object.keys(respuestasCorrectas).length;
+
+    Object.entries(respuestasCorrectas).forEach(([q, correcta], i) => {
+      const seleccionada = document.querySelector(`input[name="${q}"]:checked`);
+      const fb = document.getElementById('f' + (i + 1));
+      const opciones = document.querySelectorAll(`input[name="${q}"]`);
+
+      opciones.forEach(op => {
+        const label = op.parentElement;
+        label.classList.remove('correcta', 'incorrecta');
+        if (op.value === correcta) label.classList.add('correcta');
+        if (seleccionada && op.value === seleccionada.value && op.value !== correcta) label.classList.add('incorrecta');
+      });
+
+      if (seleccionada && seleccionada.value === correcta) {
+        aciertos++;
+        fb.className = 'feedback ok show';
+        fb.textContent = '✅ ¡Correcto!';
+      } else if (seleccionada) {
+        fb.className = 'feedback fail show';
+        fb.textContent = '❌ Repasa la información sobre este carisma.';
+      } else {
+        fb.className = 'feedback fail show';
+        fb.textContent = '⚠️ No has seleccionado ninguna respuesta.';
+      }
+    });
+
+    const resultado = document.getElementById('resultado');
+    resultado.classList.add('show');
+    document.getElementById('resPuntos').textContent = aciertos + ' / ' + total;
+
+    if (aciertos === total) {
+      document.getElementById('resEmoji').textContent = '🌟';
+      document.getElementById('resTitulo').textContent = '¡Excelente!';
+      document.getElementById('resTexto').textContent = 'Has aprendido perfectamente los tres carismas de la Iglesia. ¡Estás listo para la exposición!';
+    } else if (aciertos >= 2) {
+      document.getElementById('resEmoji').textContent = '😊';
+      document.getElementById('resTitulo').textContent = '¡Muy bien!';
+      document.getElementById('resTexto').textContent = 'Casi perfecto. Repasa las respuestas marcadas en rojo y vuelve a intentarlo.';
+    } else {
+      document.getElementById('resEmoji').textContent = '📖';
+      document.getElementById('resTitulo').textContent = '¡Sigue aprendiendo!';
+      document.getElementById('resTexto').textContent = 'Vuelve a leer las fichas de los carismas y lo conseguirás.';
+    }
+
+    seccionesCompletadas.add('quiz');
+    actualizarProgreso();
+  }
+
+  function reiniciarQuiz() {
+    document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
+    document.querySelectorAll('.opcion').forEach(o => o.classList.remove('correcta', 'incorrecta'));
+    document.querySelectorAll('.feedback').forEach(f => { f.className = 'feedback'; f.textContent = ''; });
+    document.getElementById('resultado').classList.remove('show');
+  }
+</script>
+</body>
+</html>
